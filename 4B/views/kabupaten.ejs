@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kabupaten | b59-finaltask-b Public</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="bg-secondary">
+    <div class="container bg-white shadow my-4 rounded">
+      <% if (user) { %>
+      <div
+        class="selamat bg-white shadow w-100 my-2 d-flex justify-content-between align-items-center p-2"
+      >
+        <a class="text-decoration-none text-dark" href="/provinsi">
+          <h5 class="d-block my-auto">Test Kompetensi PreClass</h5>
+        </a>
+        <div class="d-flex justify-content-between p-0 m-0">
+          <p class="mx-3 my-auto">
+            Hallo! <span class="text-danger"><%= user.username %></span>
+          </p>
+          <a class="btn btn-danger" href="/logout">Logout</a>
+        </div>
+      </div>
+      <% } else { %>
+      <div
+        class="selamat bg-white shadow w-100 my-2 d-flex justify-content-between align-items-center p-2"
+      >
+        <a class="text-decoration-none text-dark" href="/provinsi">
+          <h5 class="d-block my-auto">Test Kompetensi PreClass</h5>
+        </a>
+        <a class="btn btn-primary" href="/login">Login</a>
+      </div>
+      <% } %>
+
+      <div class="head d-flex justify-content-between align-items-center">
+        <h1 class="text-secondary">Provensi & Kabupaten</h1>
+        <div class="btnadd my-2">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#addkabupaten"
+            class="btn btn-success text-white"
+          >
+            Add Kabupaten
+          </button>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <%= page %>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/provinsi">Provinsi</a></li>
+          <li><a class="dropdown-item" href="/kabupaten">Kabupaten</a></li>
+        </ul>
+      </div>
+      <div class="containt w-100 shadow">
+        <div class="row justify-content-center p-2">
+          <% kabupatens.forEach(kabupaten => { %>
+          <div class="card col-3 m-2" style="width: 18rem">
+            <img
+              height="200px"
+              src="/img/kabupaten/<%= kabupaten.photo %>"
+              class="card-img-top my-2"
+              alt="<%= kabupaten.photo %>"
+            />
+            <div class="card-body">
+              <h5 class="card-title text-center"><%= kabupaten.nama %></h5>
+              <p class="card-text text-center"><%= kabupaten.diresmikan %></p>
+              <a
+                href="/detailkabupaten/<%= kabupaten.id %>"
+                class="btn btn-primary w-100"
+                >Detail</a
+              >
+            </div>
+          </div>
+
+          <!-- Add modal -->
+          <div id="addkabupaten" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header bg-success">
+                  <h1
+                    class="modal-title fs-5 text-white"
+                    id="exampleModalToggleLabel2"
+                  >
+                    Add Kabupaten
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form
+                    action="/addkabupaten"
+                    method="POST"
+                    enctype="multipart/form-data"
+                  >
+                    <div class="mb-3">
+                      <label for="kabupaten" class="form-label"
+                        >kabupaten</label
+                      >
+                      <input
+                        id="kabupaten"
+                        name="nama"
+                        type="text"
+                        class="form-control"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="diresmikan" class="form-label"
+                        >Diresmikan</label
+                      >
+                      <input
+                        id="diresmikan"
+                        name="diresmikan"
+                        type="date"
+                        class="form-control"
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      name="provinsi_id"
+                      hidden
+                      value="<%= kabupaten.provinsi_id %>"
+                    />
+                    <div class="mb-3">
+                      <label for="photo" class="form-label">Photo</label>
+                      <input
+                        onchange="previewImage(event)"
+                        id="photo"
+                        name="photo"
+                        type="file"
+                        class="form-control"
+                      />
+                    </div>
+                    <!-- preview -->
+                    <div class="image-preview-box">
+                      <label
+                        style="cursor: pointer"
+                        class="w-100 h-100 d-flex justify-content-center"
+                        for="image-upload"
+                      >
+                        <img
+                          style="cursor: pointer"
+                          width="25px"
+                          src="/img/svg/plus.svg"
+                          alt=""
+                        />
+                      </label>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        class="btn btn-primary w-100"
+                        type="submit"
+                        data-bs-toggle="modal"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <% if (flash.message) { %>
+    <script>
+      Swal.fire({
+        icon: '<%= flash.type === "success" ? "success" : "error" %>',
+        title: "<%= flash.message %>",
+      });
+    </script>
+    <% } %>
+
+    <script>
+      function previewImage(event) {
+        const imageInput = event.target;
+        const imagePreviewBox = document.querySelector(".image-preview-box");
+        const imageName = document.querySelector(".image-name-container");
+        if (imageInput.files && imageInput.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            console.log(imageInput.files[0].name);
+            imagePreviewBox.innerHTML = `<label  class="w-100 d-flex justify-content-center" for="image-upload"> <img id="image-preview" src="${e.target.result}" alt="Image Preview" 
+              style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;" /> </label>`;
+            imageName.innerHTML = `<p class="text-primary text-center">${imageInput.files[0].name}</p>`;
+          };
+          reader.readAsDataURL(imageInput.files[0]);
+        }
+      }
+    </script>
+  </body>
+</html>
