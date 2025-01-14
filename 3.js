@@ -1,18 +1,27 @@
 function drawImage(size) {
-    for (let i = 0; i < size; i++) {
-      let row = "";
-      for (let j = 0; j < size; j++) {
-        if ((i + j) % 2 === 0) {
-          row += "* ";
-        } else {
-          row += "# ";
-        }
-      }
-      console.log(row.trim());
-    }
+  if (size % 2 === 0) {
+    console.log("Masukkan ukuran pola dengan bilangan ganjil!");
+    return;
   }
-  
-  drawImage(5);
-  console.log("\n");
-  drawImage(7);
-  
+
+  var mid = (size - 1) / 2;
+
+  for (var i = 0; i < size; i++) {
+    var row = "";
+
+    for (var j = 0; j < size; j++) {
+      if (i === mid || j === mid) {
+        row += "* ";
+      } else {
+        row += "# ";
+      }
+    }
+
+    console.log(row);
+  }
+}
+
+
+drawImage(5);
+console.log("\n");
+drawImage(7);
